@@ -1,4 +1,53 @@
-import {useEffect,useState} from 'react';
-import {demoData as d} from '../data';
-import {fmt,Label} from '../components/UI';
-export default function Clock(){const [now,setNow]=useState(new Date());useEffect(()=>{const id=window.setInterval(()=>setNow(new Date()),1000);return ()=>clearInterval(id)},[]);return <div className="screen clock-screen"><div className="clock-sky"><div className="skyline">SEATTLE <span>✦</span></div></div><div className="clock-main"><div className="clock-date">{now.toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric'}).toUpperCase()}</div><div className="clock-time">{now.toLocaleTimeString(undefined,{hour:'numeric',minute:'2-digit'})}</div><div className="clock-brand">SEAHAWKS HQ</div></div><div className="clock-aside"><div><Label>SEAHAWKS</Label><strong>VS {d.seahawks.opponentAbbr}</strong><span>{d.seahawks.kickoff} · DEMO</span></div><div><Label>FANTASY MATCHUP</Label><strong className="green">{fmt(d.fantasy.myScore)} – {fmt(d.fantasy.opponentScore)}</strong><span>{d.fantasy.myTeam} · WEEK {d.meta.week}</span></div></div></div>}
+import { useEffect, useState } from "react";
+import { demoData as d } from "../data";
+import { fmt, Label } from "../components/UI";
+export default function Clock() {
+  const [now, setNow] = useState(new Date());
+  useEffect(() => {
+    const id = window.setInterval(() => setNow(new Date()), 1000);
+    return () => clearInterval(id);
+  }, []);
+  return (
+    <div className="screen clock-screen">
+      <div className="clock-sky">
+        <div className="skyline">
+          SEATTLE <span>✦</span>
+        </div>
+      </div>
+      <div className="clock-main">
+        <div className="clock-date">
+          {now
+            .toLocaleDateString(undefined, {
+              weekday: "long",
+              month: "long",
+              day: "numeric",
+            })
+            .toUpperCase()}
+        </div>
+        <div className="clock-time">
+          {now.toLocaleTimeString(undefined, {
+            hour: "numeric",
+            minute: "2-digit",
+          })}
+        </div>
+        <div className="clock-brand">SEAHAWKS HQ</div>
+      </div>
+      <div className="clock-aside">
+        <div>
+          <Label>SEAHAWKS</Label>
+          <strong>VS {d.seahawks.opponentAbbr}</strong>
+          <span>{d.seahawks.kickoff} · DEMO</span>
+        </div>
+        <div>
+          <Label>FANTASY MATCHUP</Label>
+          <strong className="green">
+            {fmt(d.fantasy.myScore)} – {fmt(d.fantasy.opponentScore)}
+          </strong>
+          <span>
+            {d.fantasy.myTeam} · WEEK {d.meta.week}
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+}

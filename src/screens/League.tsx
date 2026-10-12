@@ -1,4 +1,52 @@
-import {Trophy} from 'lucide-react';
-import {demoData as d} from '../data';
-import {Card,Label,fmt} from '../components/UI';
-export default function League(){const f=d.fantasy;const mine=f.standings.find(s=>s.isMine);return <div className="screen league"><div className="league-stats"><Card><Label>YOUR RANK</Label><div className="stat-big green"><Trophy size={24}/> #{f.rank}</div><small>{f.myRecord} RECORD</small></Card><Card><Label>SEASON POINTS</Label><div className="stat-big">{mine?fmt(mine.points):'—'}</div><small>POINTS FOR</small></Card><Card><Label>THIS WEEK</Label><div className="stat-big">{fmt(f.myScore)}</div><small>VS {f.opponent}</small></Card></div><Card className="standings"><div className="card-heading"><Label>{f.league.toUpperCase()} · STANDINGS</Label><span className="tag">DEMO</span></div><div className="standing heading"><span>#</span><span>TEAM</span><span>W–L</span><span>PF</span></div>{f.standings.map(t=><div className={'standing '+(t.isMine?'mine':'')} key={t.rank}><span>{t.rank}</span><strong>{t.name}</strong><span>{t.wins}–{t.losses}</span><span>{fmt(t.points)}</span></div>)}</Card></div>}
+import { Trophy } from "lucide-react";
+import { demoData as d } from "../data";
+import { Card, Label, fmt } from "../components/UI";
+export default function League() {
+  const f = d.fantasy;
+  const mine = f.standings.find((s) => s.isMine);
+  return (
+    <div className="screen league">
+      <div className="league-stats">
+        <Card>
+          <Label>YOUR RANK</Label>
+          <div className="stat-big green">
+            <Trophy size={24} /> #{f.rank}
+          </div>
+          <small>{f.myRecord} RECORD</small>
+        </Card>
+        <Card>
+          <Label>SEASON POINTS</Label>
+          <div className="stat-big">{mine ? fmt(mine.points) : "—"}</div>
+          <small>POINTS FOR</small>
+        </Card>
+        <Card>
+          <Label>THIS WEEK</Label>
+          <div className="stat-big">{fmt(f.myScore)}</div>
+          <small>VS {f.opponent}</small>
+        </Card>
+      </div>
+      <Card className="standings">
+        <div className="card-heading">
+          <Label>{f.league.toUpperCase()} · STANDINGS</Label>
+          <span className="tag">DEMO</span>
+        </div>
+        <div className="standing heading">
+          <span>#</span>
+          <span>TEAM</span>
+          <span>W–L</span>
+          <span>PF</span>
+        </div>
+        {f.standings.map((t) => (
+          <div className={"standing " + (t.isMine ? "mine" : "")} key={t.rank}>
+            <span>{t.rank}</span>
+            <strong>{t.name}</strong>
+            <span>
+              {t.wins}–{t.losses}
+            </span>
+            <span>{fmt(t.points)}</span>
+          </div>
+        ))}
+      </Card>
+    </div>
+  );
+}
