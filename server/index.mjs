@@ -4,6 +4,7 @@ import crypto from "node:crypto";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { getPlayersByTeam } from "./sleeper.mjs";
+import { getSeahawksGame } from "./espn.mjs";
 
 const app = express();
 const PORT = Number(process.env.PORT || 3001);
@@ -188,6 +189,18 @@ app.get("/api/players", async (req, res) => {
 
     res.status(502).json({
       error: "Unable to retrieve Sleeper players",
+    });
+  }
+});
+
+app.get("/api/seahawks/game", async (req, res) => {
+  try {
+    const data = await getSeahawksGame();
+    res.json(data);
+  } catch (error) {
+    console.error("ESPN API error:", error);
+    res.status(502).json({
+      error: "Unable to retrieve Seahawks game data",
     });
   }
 });
