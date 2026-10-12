@@ -1,0 +1,13 @@
+import React,{useEffect,useState} from 'react';
+import {createRoot} from 'react-dom/client';
+import {LayoutDashboard,Trophy,BarChart3,Shield,Clock3,Menu,X} from 'lucide-react';
+import Overview from './screens/Overview';
+import Matchup from './screens/Matchup';
+import League from './screens/League';
+import Seahawks from './screens/Seahawks';
+import Clock from './screens/Clock';
+import './style.css';
+type View='overview'|'matchup'|'league'|'seahawks'|'clock';
+const screens=[{id:'overview' as View,label:'Overview',icon:LayoutDashboard,component:Overview},{id:'matchup' as View,label:'Matchup',icon:Trophy,component:Matchup},{id:'league' as View,label:'League',icon:BarChart3,component:League},{id:'seahawks' as View,label:'Seahawks',icon:Shield,component:Seahawks},{id:'clock' as View,label:'Clock',icon:Clock3,component:Clock}];
+function App(){const [view,setView]=useState<View>(()=>{const saved=localStorage.getItem('seahawks-view');return screens.some(s=>s.id===saved)?saved as View:'overview'});const [menuOpen,setMenuOpen]=useState(false);const selected=screens.find(s=>s.id===view)!;const Screen=selected.component;function navigate(id:View){setView(id);localStorage.setItem('seahawks-view',id);setMenuOpen(false)}useEffect(()=>{function key(e:KeyboardEvent){if(e.key==='Escape')setMenuOpen(false)}window.addEventListener('keydown',key);return()=>window.removeEventListener('keydown',key)},[]);return <div className="app"><header className="app-header"><div className="brand"><span className="brand-badge">12</span><div><strong>SEAHAWKS <em>HQ</em></strong><small>THE SIDELINE EXPERIENCE</small></div></div><div className="header-right"><span>{selected.label.toUpperCase()}</span><span className="demo-chip">● DEMO DATA</span></div></header><main><Screen/></main><button className={'menu-toggle '+(menuOpen?'is-open':'')} onClick={()=>setMenuOpen(!menuOpen)} aria-expanded={menuOpen} aria-label={menuOpen?'Close navigation':'Open navigation'}>{menuOpen?<X size={24}/>:<Menu size={24}/>}<span>{menuOpen?'CLOSE':'MENU'}</span></button>{menuOpen&&<><button className="nav-scrim" onClick={()=>setMenuOpen(false)} aria-label="Close navigation"/><nav className="nav-panel" aria-label="Dashboard views"><div className="nav-title">CHOOSE A VIEW</div><div className="nav-grid">{screens.map(s=>{const Icon=s.icon;return <button className={'nav-option '+(view===s.id?'active':'')} key={s.id} onClick={()=>navigate(s.id)} aria-current={view===s.id?'page':undefined}><Icon size={25}/><span>{s.label}</span></button>})}</div></nav></>}</div>}
+createRoot(document.getElementById('root')!).render(<React.StrictMode><App/></React.StrictMode>);
